@@ -73,7 +73,7 @@ void DocxMergerSettingsFile::link( UnzipFile* p_unzipFile )
 	uint32						l_ptrSeq;
 	string*						l_str;
 
-	l_ptrSeq		= ( uint32 ) m_file;
+	l_ptrSeq		= DOCXFACTORY_PTR_TO_UINT32(m_file);
 	m_file			= ( DocxMergerFile* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 
 	l_str			= ( string* )	m_part;

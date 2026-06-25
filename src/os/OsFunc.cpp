@@ -284,12 +284,12 @@ string OsFunc::normalizeFileUrl( const string& p_url )
 
 
 
-byte* OsFunc::readFile(
+DocxFactory::byte* OsFunc::readFile(
 	const string&	p_fileName,
 	size_t&			p_bufSize )
 {
-	ifstream	l_fileStream;
-	byte*		l_buf	= NULL;
+	ifstream			l_fileStream;
+	DocxFactory::byte*	l_buf	= NULL;
 
 	try
 	{
@@ -299,7 +299,7 @@ byte* OsFunc::readFile(
 			throw FileNotFoundException( p_fileName, __FILE__, __LINE__ );
 
 		p_bufSize	= ( size_t ) l_fileStream.tellg();
-		l_buf		= new byte[ p_bufSize ];
+		l_buf		= new DocxFactory::byte[ p_bufSize ];
 
 		l_fileStream.seekg( 0, ios::beg );
 		l_fileStream.read( ( char* ) l_buf, p_bufSize );

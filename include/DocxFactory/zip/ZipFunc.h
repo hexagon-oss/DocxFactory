@@ -4,7 +4,17 @@
 
 #include "DocxFactory/util/DocxFactoryDefs.h"
 
-#include "zlib/zip.h"
+#if defined(__has_include)
+  #if __has_include("zlib/zip.h")
+    #include "zlib/zip.h"
+  #elif __has_include("minizip/zip.h")
+    #include "minizip/zip.h"
+  #else
+    #include "zip.h"
+  #endif
+#else
+  #include "zlib/zip.h"
+#endif
 
 #include <string>
 #include <ctime>

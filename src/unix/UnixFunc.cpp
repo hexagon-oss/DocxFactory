@@ -1,5 +1,5 @@
 
-#ifdef __unix__
+#if defined(__unix__) || defined(__APPLE__)
 
 #include "DocxFactory/os/OsFunc.h"
 #include "DocxFactory/os/DirNotFoundException.h"
@@ -395,7 +395,11 @@ void UnixFunc::initialize()
 		m_release		= l_uname.release;
 		m_version		= l_uname.version;
 		m_machine		= l_uname.machine;
-		m_domainName	= l_uname.domainname;
+		#if defined(__APPLE__)
+			m_domainName	= "";
+		#else
+			m_domainName	= l_uname.domainname;
+		#endif
 
 		l_release = m_release;
 		if ( !l_release.empty() )

@@ -41,7 +41,10 @@ EXPRESSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <malloc.h>
+
+#if defined( _WIN32 ) || defined( _WIN64 )
+	#include <malloc.h>
+#endif
 
 #include "DocxFactory/console/getopt.h"
 

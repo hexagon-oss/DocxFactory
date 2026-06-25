@@ -111,7 +111,7 @@ void DocxMergerItemLayout::link( UnzipFile* p_unzipFile )
 
 	FOR_EACH( l_itemGroupIterator, &m_childItemGroups )
 	{
-		l_ptrSeq				= ( uint32 ) *l_itemGroupIterator;
+		l_ptrSeq				= DOCXFACTORY_PTR_TO_UINT32(*l_itemGroupIterator);
 		*l_itemGroupIterator	= ( DocxMergerItemGroup* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 } // link

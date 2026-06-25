@@ -401,7 +401,7 @@ void DocxMergerFile::mergeItemByJson( rapidjson::Value* p_value, DocxMergerItem*
 	list<pair<rapidjson::Value*, DocxMergerItem*>>				l_valueList;
 	list<pair<rapidjson::Value*, DocxMergerItem*>>::iterator	l_valueIterator;
 
-	rapidjson::Value::Member*									l_childMember;
+	rapidjson::Value::MemberIterator									l_childMember;
 	rapidjson::Value*											l_childValue;
 	string														l_childName;
 
@@ -422,8 +422,8 @@ void DocxMergerFile::mergeItemByJson( rapidjson::Value* p_value, DocxMergerItem*
 
 			for ( l_childMember = p_value ->MemberBegin(); l_childMember != p_value ->MemberEnd(); ++l_childMember )
 			{
-				l_childName		= StrFunc::lc( l_childMember ->name.GetString() );
-				l_childValue	= &l_childMember ->value;
+				l_childName		= StrFunc::lc( (*l_childMember).name.GetString() );
+				l_childValue	= &(*l_childMember).value;
 
 				l_fieldRange = l_fields ->equal_range( l_childName );
 				if ( l_fieldRange.first != l_fieldRange.second )
@@ -511,8 +511,8 @@ void DocxMergerFile::mergeItemByJson( rapidjson::Value* p_value, DocxMergerItem*
 		{
 			for ( l_childMember = p_value ->MemberBegin(); l_childMember != p_value ->MemberEnd(); ++l_childMember )
 			{
-				l_childName		= StrFunc::lc( l_childMember ->name.GetString() );
-				l_childValue	= &l_childMember ->value;
+				l_childName		= StrFunc::lc( (*l_childMember).name.GetString() );
+				l_childValue	= &(*l_childMember).value;
 
 				if ( l_childValue ->IsObject() || l_childValue ->IsArray() )
 				{
@@ -586,7 +586,7 @@ void DocxMergerFile::mergeFieldByJson( rapidjson::Value* p_value, DocxMergerFiel
 void DocxMergerFile::mergeChartFieldByJson( rapidjson::Value* p_value, DocxMergerChartField* p_chartField )
 {
 	rapidjson::Value*			l_seriesValue;
-	rapidjson::Value::Member*	l_childMember;
+	rapidjson::Value::MemberIterator	l_childMember;
 	rapidjson::Value*			l_childValue;
 	string						l_childName;
 
@@ -606,8 +606,8 @@ void DocxMergerFile::mergeChartFieldByJson( rapidjson::Value* p_value, DocxMerge
 
 				for ( l_childMember = l_seriesValue ->MemberBegin(); l_childMember != l_seriesValue ->MemberEnd(); ++l_childMember )
 				{
-					l_childName		= StrFunc::lc( l_childMember ->name.GetString() );
-					l_childValue	= &l_childMember ->value;
+					l_childName		= StrFunc::lc( (*l_childMember).name.GetString() );
+					l_childValue	= &(*l_childMember).value;
 
 						 if ( l_childName == "series" )		l_series	= JsonFunc::getStr( l_childValue );
 					else if ( l_childName == "category" )	l_category	= JsonFunc::getStr( l_childValue );
@@ -1055,43 +1055,43 @@ void DocxMergerFile::link( UnzipFile* p_unzipFile )
 
 	FOR_EACH( l_itemFileIterator, &m_itemFiles )
 	{
-		l_ptrSeq					= ( uint32 ) *l_itemFileIterator;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(*l_itemFileIterator);
 		*l_itemFileIterator			= ( DocxMergerItemFile* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_itemGroupIterator, &m_itemGroups )
 	{
-		l_ptrSeq					= ( uint32 ) *l_itemGroupIterator;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(*l_itemGroupIterator);
 		*l_itemGroupIterator		= ( DocxMergerItemGroup* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_itemIterator, &m_itemsByName )
 	{
-		l_ptrSeq					= ( uint32 ) l_itemIterator ->second;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(l_itemIterator ->second);
 		l_itemIterator ->second		= ( DocxMergerItem* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_fieldIterator, &m_fieldsByName )
 	{
-		l_ptrSeq					= ( uint32 ) l_fieldIterator ->second;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(l_fieldIterator ->second);
 		l_fieldIterator ->second	= ( DocxMergerField* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_fieldIterator, &m_headerFieldsByName )
 	{
-		l_ptrSeq					= ( uint32 ) l_fieldIterator ->second;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(l_fieldIterator ->second);
 		l_fieldIterator ->second	= ( DocxMergerField* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_xmlStringIterator, &m_xmlStrings )
 	{
-		l_ptrSeq					= ( uint32 ) *l_xmlStringIterator;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(*l_xmlStringIterator);
 		*l_xmlStringIterator		= ( DocxMergerXmlString* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_idIterator, &m_ids )
 	{
-		l_ptrSeq					= ( uint32 ) *l_idIterator;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(*l_idIterator);
 		*l_idIterator				= ( DocxMergerId* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 } // link

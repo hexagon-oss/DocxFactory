@@ -58,7 +58,7 @@ void DocxMergerField::link( UnzipFile* p_unzipFile )
 	const map<uint32, void*>*	l_ptrsBySeq = p_unzipFile ->getPtrsBySeq();
 	uint32						l_ptrSeq;
 
-	l_ptrSeq	= ( uint32 ) m_item;
+	l_ptrSeq	= DOCXFACTORY_PTR_TO_UINT32(m_item);
 	m_item		= ( DocxMergerItem* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	m_itemFile	= m_item ->getItemFile();
 	m_file		= m_itemFile ->getFile();

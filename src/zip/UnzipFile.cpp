@@ -72,12 +72,12 @@ void UnzipFile::close()
 
 
 
-byte* UnzipFile::extractEntryToBuf(
+DocxFactory::byte* UnzipFile::extractEntryToBuf(
 	const string&	p_path,
 	size_t&			p_bufSize ) const
 {
-	FileInfo*	l_fileInfo;
-	byte*		l_buf = NULL;
+	FileInfo*				l_fileInfo;
+	DocxFactory::byte*	l_buf = NULL;
 	int			l_err;
 
 	if ( !m_fileOpen )
@@ -101,7 +101,7 @@ byte* UnzipFile::extractEntryToBuf(
 			throw MinizipException( "unzOpenCurrentFile", l_err, __FILE__, __LINE__ );
 
 		p_bufSize	= ( size_t ) ( ( l_fileInfo ->getUnzFileInfo() ) ->uncompressed_size );
-		l_buf		= new byte[ p_bufSize ]; // will throw bad_alloc if allocation fails
+		l_buf		= new DocxFactory::byte[ p_bufSize ]; // will throw bad_alloc if allocation fails
 
 		l_err = unzReadCurrentFile( m_unzipFile, l_buf, p_bufSize );
 
@@ -125,14 +125,14 @@ byte* UnzipFile::extractEntryToBuf(
 	return l_buf;
 } // extract
 
-byte* UnzipFile::extractEntryToRaw(
+DocxFactory::byte* UnzipFile::extractEntryToRaw(
 	const string&	p_path,
 	int&			p_method,
 	int&			p_level,
 	FileInfo*&		p_fileInfo,
 	size_t&			p_bufSize ) const
 {
-	byte*	l_buf = NULL;
+	DocxFactory::byte*	l_buf = NULL;
 	int		l_err;
 
 	if ( !m_fileOpen )

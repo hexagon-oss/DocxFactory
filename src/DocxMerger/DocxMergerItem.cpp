@@ -248,39 +248,39 @@ void DocxMergerItem::link( UnzipFile* p_unzipFile )
 	const map<uint32, void*>*	l_ptrsBySeq = p_unzipFile ->getPtrsBySeq();
 	uint32						l_ptrSeq;
 
-	l_ptrSeq			= ( uint32 ) m_itemFile;
+	l_ptrSeq			= DOCXFACTORY_PTR_TO_UINT32(m_itemFile);
 	m_itemFile			= ( DocxMergerItemFile* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 
-	l_ptrSeq			= ( uint32 ) m_itemGroup;
+	l_ptrSeq			= DOCXFACTORY_PTR_TO_UINT32(m_itemGroup);
 	m_itemGroup			= ( DocxMergerItemGroup* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 
-	l_ptrSeq			= ( uint32 ) m_fillItemParent;
+	l_ptrSeq			= DOCXFACTORY_PTR_TO_UINT32(m_fillItemParent);
 	m_fillItemParent	= ( DocxMergerItem* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 
-	l_ptrSeq			= ( uint32 ) m_fillItemGroup;
+	l_ptrSeq			= DOCXFACTORY_PTR_TO_UINT32(m_fillItemGroup);
 	m_fillItemGroup		= ( DocxMergerItemGroup* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 
 	FOR_EACH( l_pathIterator, &m_path )
 	{
-		l_ptrSeq					= ( uint32 ) *l_pathIterator;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(*l_pathIterator);
 		*l_pathIterator				= ( DocxMergerItem* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 	
 	FOR_EACH( l_itemGroupIterator, &m_childItemGroups )
 	{
-		l_ptrSeq					= ( uint32 ) *l_itemGroupIterator;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(*l_itemGroupIterator);
 		*l_itemGroupIterator		= ( DocxMergerItemGroup* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_fieldIterator, &m_fieldsByName )
 	{
-		l_ptrSeq					= ( uint32 ) l_fieldIterator ->second;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(l_fieldIterator ->second);
 		l_fieldIterator ->second	= ( DocxMergerField* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_xmlStringIterator, &m_xmlStrings )
 	{
-		l_ptrSeq					= ( uint32 ) *l_xmlStringIterator;
+		l_ptrSeq					= DOCXFACTORY_PTR_TO_UINT32(*l_xmlStringIterator);
 		*l_xmlStringIterator		= ( DocxMergerXmlString* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 

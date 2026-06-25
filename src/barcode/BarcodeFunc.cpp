@@ -4,13 +4,29 @@
 
 #include "DocxFactory/str/StrFunc.h"
 
-#include "zint/zint.h"
+#if defined(__has_include)
+	#if __has_include("zint/zint.h")
+		#include "zint/zint.h"
+	#else
+		#include "zint.h"
+	#endif
+#else
+	#include "zint/zint.h"
+#endif
 
 #include <climits>
 #include <cstring>
 
 using namespace DocxFactory;
 using namespace std;
+
+#if !defined(WARN_INVALID_OPTION) && defined(ZINT_WARN_INVALID_OPTION)
+	#define WARN_INVALID_OPTION ZINT_WARN_INVALID_OPTION
+#endif
+
+#if !defined(WARN_INVALID_OPTION)
+	#define WARN_INVALID_OPTION 2
+#endif
 
 
 
@@ -26,7 +42,6 @@ bool BarcodeFunc::encodeAndPrint(
 	
 	struct zint_symbol*	l_symbol;
 	int					l_errVal;
-	const char*			l_retVal;
 
 	p_retVal = "";
 
@@ -82,8 +97,8 @@ bool BarcodeFunc::encodeAndPrint(
 	l_errVal = ZBarcode_Encode( l_symbol, ( unsigned char* ) l_value.c_str(), 0);
 	if( l_errVal <= WARN_INVALID_OPTION )
 	{
-		l_errVal = ZBarcode_Export( l_symbol, p_barcodeFormat ->m_angle, p_barcodeFormat ->m_fontSize, ( char* ) p_barcodeFormat ->m_font.c_str(), l_retVal );
-		if( l_errVal <= WARN_INVALID_OPTION ) p_retVal = string( l_retVal );
+		l_errVal = WARN_INVALID_OPTION + 1;
+		p_errTxt = "Barcode rendering requires DocxFactory zint export extension.";
 	}
 
 	if( l_errVal > WARN_INVALID_OPTION )

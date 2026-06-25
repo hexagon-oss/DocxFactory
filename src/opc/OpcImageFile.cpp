@@ -11,12 +11,26 @@
 #include "DocxFactory/str/StrFunc.h"
 #include "DocxFactory/util/DocxFactoryDefs.h"
 
-#include "zlib/zip.h"
+#if defined(__has_include)
+	#if __has_include("zlib/zip.h")
+		#include "zlib/zip.h"
+	#elif __has_include("minizip/zip.h")
+		#include "minizip/zip.h"
+	#else
+		#include "zip.h"
+	#endif
+#else
+	#include "zlib/zip.h"
+#endif
 
-#include "Magick++.h"
-#include "magick/image.h"
+#if DOCXFACTORY_WITH_IMAGEMAGICK
+	#include "Magick++.h"
+	#include "magick/image.h"
+#endif
 
 #include <cstring>
+#include <fstream>
+#include <stdexcept>
 
 using namespace DocxFactory;
 using namespace std;
@@ -70,6 +84,38 @@ OpcImageFile::~OpcImageFile()
 
 void OpcImageFile::loadImage( bool p_convert, const string& p_convertTo /* = "" */ )
 {
+	#if !DOCXFACTORY_WITH_IMAGEMAGICK
+		if ( p_convert )
+			throw runtime_error( "Image conversion requires DOCXFACTORY_WITH_IMAGEMAGICK=ON." );
+
+		ifstream l_stream( m_sourceFullPath.c_str(), ios::in | ios::binary | ios::ate );
+		if ( !l_stream.is_open() )
+			throw runtime_error( "Could not open image file: " + m_sourceFullPath );
+
+		streamsize l_size = l_stream.tellg();
+		if ( l_size < 0 )
+			throw runtime_error( "Could not read image size: " + m_sourceFullPath );
+
+		l_stream.seekg( 0, ios::beg );
+
+		if ( m_imageBuf )
+			delete[] m_imageBuf;
+
+		m_imageBufSize = ( size_t ) l_size;
+		m_imageBuf = new byte[ m_imageBufSize ];
+
+		if ( !l_stream.read( ( char* ) m_imageBuf, l_size ) )
+			throw runtime_error( "Could not read image bytes: " + m_sourceFullPath );
+
+		m_imageSource = SOURCE_IMAGE_OBJECT;
+		m_converted = false;
+
+		// Without ImageMagick we cannot read physical dimensions here.
+		m_emuWidth = 0;
+		m_emuHeight = 0;
+		return;
+	#else
+
 	Magick::Image*	l_image		= NULL;
 	Magick::Blob*	l_imageBlob	= NULL;
 
@@ -171,6 +217,7 @@ void OpcImageFile::loadImage( bool p_convert, const string& p_convertTo /* = "" 
 
 		throw;
 	}
+	#endif
 } // loadImage
 
 

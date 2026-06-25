@@ -2,7 +2,7 @@
 #ifndef __DOCXFACTORY_UNIX_FUNC_H__
 #define __DOCXFACTORY_UNIX_FUNC_H__
 
-#ifdef __unix__
+#if defined(__unix__) || defined(__APPLE__)
 
 #include "DocxFactory/str/StrEntries.h"
 

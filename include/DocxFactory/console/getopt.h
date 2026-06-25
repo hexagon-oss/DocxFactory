@@ -45,7 +45,11 @@ EXPRESSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 	#ifdef __cplusplus
 		#define _BEGIN_EXTERN_C extern "C" {
 		#define _END_EXTERN_C }
-		#define _GETOPT_THROW throw()
+		#if defined(_MSC_VER)
+			#define _GETOPT_THROW throw()
+		#else
+			#define _GETOPT_THROW
+		#endif
 	#else
 		#define _BEGIN_EXTERN_C
 		#define _END_EXTERN_C

@@ -1,6 +1,9 @@
 
 #include "DocxFactory/ConverterPrinter/ConverterPrinter.h"
+
+#if DOCXFACTORY_ENABLE_UNO
 #include "DocxFactory/ConverterPrinter/OpenOfficeUtil.h"
+#endif
 
 #if defined( _WIN32 ) || defined( _WIN64 )
 
@@ -205,6 +208,8 @@ void ConverterPrinter::initializeUtils()
 	{
 	}
 
+
+	#if DOCXFACTORY_ENABLE_UNO
 	try
 	{
 		l_util = new OpenOfficeUtil( l_odfConverter );
@@ -214,4 +219,5 @@ void ConverterPrinter::initializeUtils()
 	catch ( ... )
 	{
 	}
+	#endif
 } // initializeUtils

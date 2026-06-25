@@ -513,7 +513,7 @@ void DocxMergerItemFile::link( UnzipFile* p_unzipFile )
 	uint32						l_ptrSeq;
 	string*						l_str;
 
-	l_ptrSeq		= ( uint32 ) m_file;
+	l_ptrSeq		= DOCXFACTORY_PTR_TO_UINT32(m_file);
 	m_file			= ( DocxMergerFile* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 
 	l_str			= ( string* )	m_part;
@@ -521,30 +521,30 @@ void DocxMergerItemFile::link( UnzipFile* p_unzipFile )
 	m_part ->loadDoc();
 	delete l_str;
 
-	l_ptrSeq		= ( uint32 ) m_rootItemGroup;
+	l_ptrSeq		= DOCXFACTORY_PTR_TO_UINT32(m_rootItemGroup);
 	m_rootItemGroup	= ( DocxMergerItemGroup* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 
 	FOR_EACH( l_itemGroupIterator, &m_itemGroups )
 	{
-		l_ptrSeq				= ( uint32 ) *l_itemGroupIterator;
+		l_ptrSeq				= DOCXFACTORY_PTR_TO_UINT32(*l_itemGroupIterator);
 		*l_itemGroupIterator	= ( DocxMergerItemGroup* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_itemIterator, &m_items )
 	{
-		l_ptrSeq				= ( uint32 ) *l_itemIterator;
+		l_ptrSeq				= DOCXFACTORY_PTR_TO_UINT32(*l_itemIterator);
 		*l_itemIterator			= ( DocxMergerItem* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_fieldIterator, &m_fields )
 	{
-		l_ptrSeq				= ( uint32 ) *l_fieldIterator;
+		l_ptrSeq				= DOCXFACTORY_PTR_TO_UINT32(*l_fieldIterator);
 		*l_fieldIterator		= ( DocxMergerField* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 
 	FOR_EACH( l_xmlStringIterator, &m_sects )
 	{
-		l_ptrSeq				= ( uint32 ) *l_xmlStringIterator;
+		l_ptrSeq				= DOCXFACTORY_PTR_TO_UINT32(*l_xmlStringIterator);
 		*l_xmlStringIterator	= ( DocxMergerXmlString* ) l_ptrsBySeq ->find( l_ptrSeq ) ->second;
 	}
 } // link

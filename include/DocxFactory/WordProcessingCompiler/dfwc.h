@@ -4,7 +4,7 @@
 
 
 
-#if defined( __unix__ ) || defined( SWIG )
+#if defined( __unix__ ) || defined( __APPLE__ ) || defined( SWIG )
 	#define DOCXFACTORY_DLL
 #else
 	#ifdef  DOCXFACTORY_DLL_EXPORT

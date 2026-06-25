@@ -14,7 +14,15 @@
 #include "DocxFactory/str/StrFunc.h"
 #include "DocxFactory/util/DocxFactoryDefs.h"
 
-#include "zint/zint.h"
+#if defined(__has_include)
+	#if __has_include("zint/zint.h")
+		#include "zint/zint.h"
+	#else
+		#include "zint.h"
+	#endif
+#else
+	#include "zint/zint.h"
+#endif
 
 #include "xercesc/dom/DOM.hpp"
 

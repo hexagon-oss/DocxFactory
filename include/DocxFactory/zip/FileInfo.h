@@ -2,8 +2,21 @@
 #ifndef __DOCXFACTORY_FILE_INFO_H__
 #define __DOCXFACTORY_FILE_INFO_H__
 
-#include "zlib/zip.h"
-#include "zlib/unzip.h"
+#if defined(__has_include)
+  #if __has_include("zlib/zip.h")
+    #include "zlib/zip.h"
+    #include "zlib/unzip.h"
+  #elif __has_include("minizip/zip.h")
+    #include "minizip/zip.h"
+    #include "minizip/unzip.h"
+  #else
+    #include "zip.h"
+    #include "unzip.h"
+  #endif
+#else
+  #include "zlib/zip.h"
+  #include "zlib/unzip.h"
+#endif
 
 
 

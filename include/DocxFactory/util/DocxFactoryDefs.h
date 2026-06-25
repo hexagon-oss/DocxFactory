@@ -60,6 +60,8 @@ namespace DocxFactory
 #define NULL 0
 #endif
 
+#define DOCXFACTORY_PTR_TO_UINT32( ptr ) ( ( DocxFactory::uint32 ) ( uintptr_t ) ( ptr ) )
+
 #define IS_DIGIT( val ) ( val >= '0' && val <= '9' )
 #define IS_HEXDIGIT( val ) ( val >= '0' && val <= '9' || val >= 'A' && val <= 'F' || val >= 'a' && val <= 'f' )
 #define IS_LETTER( val ) ( val >= 'A' && val <= 'Z' || val >= 'a' && val <= 'z' )

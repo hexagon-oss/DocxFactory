@@ -2,6 +2,34 @@ DocxFactory Changelog
 =====================
 
 
+Version 2.0.0, on June 23, 2026
+--------------------------------
+### Modernization
+
+* Migrated the primary build workflow from legacy GNU Make to Conan 2 + CMake.
+* Added a root `CMakeLists.txt` with configurable options for tools, UNO, Python SWIG bindings, and optional ImageMagick support.
+* Added Conan-based dependency management with reproducible package resolution across platforms.
+* Updated build documentation with modern Linux, macOS, and Windows CMake workflows.
+
+### Enhancements
+
+* Enabled successful Python 3 SWIG binding builds in the CMake pipeline.
+* Improved Python wrapper usability by exposing compatibility aliases for both snake_case and CamelCase class access patterns.
+* Added documented Python quick-start examples for macOS and Linux.
+
+### Compatibility and Bug Fixes
+
+* Fixed RapidJSON API compatibility issues by replacing legacy member-pointer usage with iterator-based access.
+* Resolved `byte` type ambiguity with modern C++ (`std::byte`) by explicitly qualifying `DocxFactory::byte` where required.
+* Fixed platform-specific `getopt` exception declaration conflicts on Unix-like systems while preserving MSVC behavior.
+* Improved macOS compatibility in Unix/platform guards and related conditional compilation paths.
+
+### Validation
+
+* Verified successful compilation of core libraries and CLI tools with zero build errors in the modernized toolchain.
+* Verified runtime generation and merging flows using the word-processing compiler and merger command-line tools.
+
+
 Version 1.2.18, on October 25, 2015
 -----------------------------------
 ### Bug Fixes

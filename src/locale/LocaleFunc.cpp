@@ -32,6 +32,7 @@
 
 using namespace DocxFactory;
 using namespace std;
+using namespace icu;
 
 
 
@@ -239,19 +240,23 @@ void LocaleFunc::setFirstWeekDay()
 
 #else
 
-	char* l_byte = nl_langinfo( _NL_TIME_FIRST_WEEKDAY );
+	#if defined(__APPLE__)
+		m_firstWeekDay = SUNDAY;
+	#else
+		char* l_byte = nl_langinfo( _NL_TIME_FIRST_WEEKDAY );
 
-	if ( l_byte )
-	{
-		if ( *l_byte == 2 )
-			m_firstWeekDay = MONDAY;
+		if ( l_byte )
+		{
+			if ( *l_byte == 2 )
+				m_firstWeekDay = MONDAY;
+
+			else
+				m_firstWeekDay = SUNDAY;
+		}
 
 		else
 			m_firstWeekDay = SUNDAY;
-	}
-
-	else
-		m_firstWeekDay = SUNDAY;	
+	#endif
 
 #endif
 } // setFirstWeekDay

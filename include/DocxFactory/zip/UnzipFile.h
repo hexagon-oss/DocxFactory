@@ -5,7 +5,17 @@
 #include "DocxFactory/zip/ZipFunc.h"
 #include "DocxFactory/util/DocxFactoryDefs.h"
 
-#include "zlib/unzip.h"
+#if defined(__has_include)
+	#if __has_include("zlib/unzip.h")
+		#include "zlib/unzip.h"
+	#elif __has_include("minizip/unzip.h")
+		#include "minizip/unzip.h"
+	#else
+		#include "unzip.h"
+	#endif
+#else
+	#include "zlib/unzip.h"
+#endif
 
 #include "boost/type_traits.hpp"
 #include "boost/utility/enable_if.hpp"
