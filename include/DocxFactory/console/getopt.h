@@ -47,6 +47,8 @@ EXPRESSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 		#define _END_EXTERN_C }
 		#if defined(_MSC_VER)
 			#define _GETOPT_THROW throw()
+		#elif __cplusplus >= 201103L
+			#define _GETOPT_THROW noexcept
 		#else
 			#define _GETOPT_THROW
 		#endif

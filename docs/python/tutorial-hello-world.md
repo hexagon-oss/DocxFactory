@@ -20,10 +20,10 @@ The example uses `input_test_template.docx` from the repository root. That templ
 Use this structure:
 
 ```xml
-<root>
+<Header>
   <first_name>John</first_name>
   <last_name>Smith</operatfirst_name>
-</root>
+</Header>
 ```
 
 ## Run the example
