@@ -22,7 +22,7 @@ Use this structure:
 ```xml
 <Header>
   <first_name>John</first_name>
-  <last_name>Smith</operatfirst_name>
+  <last_name>Smith</last_name>
 </Header>
 ```
 

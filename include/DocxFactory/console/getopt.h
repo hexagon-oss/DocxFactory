@@ -47,7 +47,7 @@ EXPRESSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 		#define _END_EXTERN_C }
 		#if defined(_MSC_VER)
 			#define _GETOPT_THROW throw()
-		#elif __cplusplus >= 201103L
+		#elif defined(__APPLE__) || __cplusplus >= 201103L
 			#define _GETOPT_THROW noexcept
 		#else
 			#define _GETOPT_THROW
@@ -88,9 +88,21 @@ _BEGIN_EXTERN_C
 		char val;
 	};
 	char *optarg_a;
-	int getopt_a(int argc, char *const *argv, const char *optstring) _GETOPT_THROW;
-	int getopt_long_a(int argc, char *const *argv, const char *options, const struct option_a *long_options, int *opt_index) _GETOPT_THROW;
-	int getopt_long_only_a(int argc, char *const *argv, const char *options, const struct option_a *long_options, int *opt_index) _GETOPT_THROW;
+	#ifdef __cplusplus
+		#if defined(__APPLE__) || __cplusplus >= 201103L
+			int getopt_a(int argc, char *const *argv, const char *optstring) noexcept;
+			int getopt_long_a(int argc, char *const *argv, const char *options, const struct option_a *long_options, int *opt_index) noexcept;
+			int getopt_long_only_a(int argc, char *const *argv, const char *options, const struct option_a *long_options, int *opt_index) noexcept;
+		#else
+			int getopt_a(int argc, char *const *argv, const char *optstring) _GETOPT_THROW;
+			int getopt_long_a(int argc, char *const *argv, const char *options, const struct option_a *long_options, int *opt_index) _GETOPT_THROW;
+			int getopt_long_only_a(int argc, char *const *argv, const char *options, const struct option_a *long_options, int *opt_index) _GETOPT_THROW;
+		#endif
+	#else
+		int getopt_a(int argc, char *const *argv, const char *optstring);
+		int getopt_long_a(int argc, char *const *argv, const char *options, const struct option_a *long_options, int *opt_index);
+		int getopt_long_only_a(int argc, char *const *argv, const char *options, const struct option_a *long_options, int *opt_index);
+	#endif
 
 	// Unicode
 	struct option_w
@@ -101,9 +113,21 @@ _BEGIN_EXTERN_C
 		wchar_t val;
 	};
 	wchar_t *optarg_w;
-	int getopt_w(int argc, wchar_t *const *argv, const wchar_t *optstring) _GETOPT_THROW;
-	int getopt_long_w(int argc, wchar_t *const *argv, const wchar_t *options, const struct option_w *long_options, int *opt_index) _GETOPT_THROW;
-	int getopt_long_only_w(int argc, wchar_t *const *argv, const wchar_t *options, const struct option_w *long_options, int *opt_index) _GETOPT_THROW;	
+	#ifdef __cplusplus
+		#if defined(__APPLE__) || __cplusplus >= 201103L
+			int getopt_w(int argc, wchar_t *const *argv, const wchar_t *optstring) noexcept;
+			int getopt_long_w(int argc, wchar_t *const *argv, const wchar_t *options, const struct option_w *long_options, int *opt_index) noexcept;
+			int getopt_long_only_w(int argc, wchar_t *const *argv, const wchar_t *options, const struct option_w *long_options, int *opt_index) noexcept;
+		#else
+			int getopt_w(int argc, wchar_t *const *argv, const wchar_t *optstring) _GETOPT_THROW;
+			int getopt_long_w(int argc, wchar_t *const *argv, const wchar_t *options, const struct option_w *long_options, int *opt_index) _GETOPT_THROW;
+			int getopt_long_only_w(int argc, wchar_t *const *argv, const wchar_t *options, const struct option_w *long_options, int *opt_index) _GETOPT_THROW;
+		#endif
+	#else
+		int getopt_w(int argc, wchar_t *const *argv, const wchar_t *optstring);
+		int getopt_long_w(int argc, wchar_t *const *argv, const wchar_t *options, const struct option_w *long_options, int *opt_index);
+		int getopt_long_only_w(int argc, wchar_t *const *argv, const wchar_t *options, const struct option_w *long_options, int *opt_index);
+	#endif
 	
 _END_EXTERN_C
 
@@ -119,7 +143,10 @@ _END_EXTERN_C
 		#define option option_w
 		#define optarg optarg_w
 	#else
-		#define getopt getopt_a
+		// On macOS, use the system getopt; for other platforms use our wrapper
+		#if !defined(__APPLE__)
+			#define getopt getopt_a
+		#endif
 		#define getopt_long getopt_long_a
 		#define getopt_long_only getopt_long_only_a
 		#define option option_a
